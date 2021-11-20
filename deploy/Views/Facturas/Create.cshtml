@@ -1,0 +1,69 @@
+﻿@model GastosAppCore.Domain.Factura
+@using System.Web.Optimization
+
+@{
+    if (Model.FacturaId == 0)
+    {
+        ViewBag.Title = "Create";
+    }
+    else
+    {
+        ViewBag.Title = "Editar";
+    }        
+}
+@if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+{
+    if (Model.FacturaId == 0)
+    {
+    <div id="topbar"><div id="title">Registrar</div> </div>    
+    }
+    else
+    {
+    <div id="topbar"><div id="title">Editar</div> </div>    
+    }
+}
+
+
+
+@{Html.RenderPartial("CreateEditPartial", Model);}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#radio").buttonset();
+        $("[name=Dia]").change(function (e) {
+            calculaProxFecha('@Url.Action("CalculaProxFecha", "Facturas")', $("[name=ProxFecha]").val());
+        });
+        $("[name=DescripFrecuente]").change(function (e) {
+            $("[name=Nombre]").val($("[name=DescripFrecuente]").find(":selected").text());
+        });
+
+        $("[name=btnRecalcular]").button({
+            icons: {
+                primary: "ui-icon-arrowreturn-1-w"
+            },
+            text: false
+        });
+        $("[name=btnAvanzar]").button({
+            icons: {
+                primary: "ui-icon-arrowrefresh-1-e"
+            },
+            text: false
+        });
+
+        $("[name=btnRecalcular]").click(function (e) {
+            calculaProxFecha('@Url.Action("CalculaProxFecha", "Facturas")', "");
+            e.preventDefault();
+        });
+        $("[name=btnAvanzar]").click(function (e) {
+            calculaProxFecha('@Url.Action("CalculaProxFecha", "Facturas")', $("[name=ProxFecha]").val());
+            e.preventDefault();
+        });
+
+        $("input:submit").button();
+    });
+</script>
+
+}

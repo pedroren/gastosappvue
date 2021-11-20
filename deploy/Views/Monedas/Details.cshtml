@@ -1,0 +1,29 @@
+﻿@model GastosAppCore.Domain.Moneda
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Moneda</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">@Model.Nombre</div>
+
+    <div class="display-label">Abreviatura</div>
+    <div class="display-field">@Model.Abreviatura</div>
+
+    <div class="display-label">EsPrincipal</div>
+    <div class="display-field">@Model.EsPrincipal</div>
+
+    <div class="display-label">Tasa</div>
+    <div class="display-field">@Model.Tasa</div>
+</fieldset>
+<div data-role="controlgroup" data-type="horizontal">
+    @Html.ActionLink("Regresar", "Index", null, new { @data_role = "button", @data_icon = "arrow-l" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MonedaId }, new { @data_role = "button", @data_icon = "gear" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.MonedaId }, new { @data_role = "button", @data_icon = "delete" }) 
+</div>
+

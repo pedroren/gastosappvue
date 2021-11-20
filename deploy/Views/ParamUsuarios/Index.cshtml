@@ -1,0 +1,55 @@
+﻿@model IEnumerable<GastosAppCore.Domain.ParamUsuario>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Parametrose</h2>
+
+<table>
+    <tr>
+        <th></th>
+        
+        <th>
+            SalarioRecibido
+        </th>
+        <th>
+            HorasTrabajadas
+        </th>
+        <th>
+            GastosTrabajo
+        </th>
+        <th>
+            HorasGastadas
+        </th>
+        <th>
+            SalarioHoraReal
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ParamUsuarioId })
+        </td>
+        
+        <td>
+            @String.Format("{0:C}", item.SalarioRecibido)
+        </td>
+        <td>
+            @String.Format("{0:F}", item.HorasTrabajadas)
+        </td>
+        <td>
+            @String.Format("{0:C}", item.GastosTrabajo)
+        </td>
+        <td>
+            @String.Format("{0:F}", item.HorasGastadas)
+        </td>
+        <td>
+            @String.Format("{0:C}", item.SalarioHoraReal)
+        </td>
+    </tr>
+}
+
+</table>
+

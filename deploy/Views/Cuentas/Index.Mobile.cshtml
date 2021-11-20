@@ -1,0 +1,41 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Cuenta>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Cuentas";
+}
+
+<div class="content">
+<div class="ui-bar ui-bar-a"> 
+<h3 style="display:inline-block; width:67%; margin-top:2px;">Listado</h3>
+</div>
+@section navbar_left {
+    @{Html.RenderPartial("_HomeActionPartial");}
+}
+@section navbar_right {
+    @{Html.RenderPartial("_CreateActionPartial");}
+}
+<ul data-role="listview" data-inset="true" data-filter="true">
+
+@foreach (var item in Model)
+{
+    <li >
+    <a  href="@Url.Action("Details", new { id = item.CuentaId })">
+    <span class="name">@item.Nombre</span>
+    <span class="ui-li-count">@if (item.Balance < 0)
+                       {    
+            <span class="negative">@String.Format("{0:c}", item.Balance)</span>
+                       }
+                       else
+                       {    
+            <span class="positive">@String.Format("{0:c}", item.Balance)</span>
+                       }
+                       </span>
+    <span class="arrow"></span>
+    </a>
+    </li>
+    
+}
+
+</ul>
+
+</div>

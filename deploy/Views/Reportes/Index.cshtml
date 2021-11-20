@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Reportes";
+}
+
+<div id="topbar"><div id="title">Reportes</div> </div>    
+<div class="content">
+
+<ul id="menu" data-role="listview" data-inset="true" class="pageitem">
+                    <li class="menu"><span class="name">@Html.ActionLink("Conceptos", "RepSumConcepto", "Reportes")</span><span class="arrow"></span></li>
+                    <li class="menu"><span class="name">@Html.ActionLink("CashFlow", "RepSumCashFlow", "Reportes")</span><span class="arrow"></span></li>
+                    <li class="menu"><span class="name">@Html.ActionLink("Hist Conceptos", "RepHistConcepto", "Reportes")</span><span class="arrow"></span></li>
+                </ul>
+</div>

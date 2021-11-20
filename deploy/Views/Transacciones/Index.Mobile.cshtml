@@ -1,0 +1,90 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Transaccion>
+@using GastosAppMvc.Helpers
+
+@{
+    ViewBag.Title = "Transacciones";
+    ViewBag.bAllowCreate = true;
+}
+@section scripts {
+
+<script>
+    $(function () {
+        bindDatePicker($('#FechaHasta'));
+    });
+    </script>
+}
+<div class="content">
+@section navbar_left {
+    @{Html.RenderPartial("_HomeActionPartial");}
+}
+@section navbar_right {
+    @{Html.RenderPartial("_CreateActionPartial");}
+}
+@using (Html.BeginForm())
+{
+    <div id="filter-box">
+    <fieldset data-role="controlgroup">
+    <fieldset class="ui-grid-a" data-mini="true">
+    <div class="ui-block-a" data-mini="true">
+    <input name="FechaHasta" id="FechaHasta" type="text" value="@ViewData["FechaHasta"]" data-inline="true" class="ui-input-text ui-body-a ui-corner-all ui-shadow-inset"/>    
+    </div>
+    <div class="ui-block-b" data-mini="true">
+    
+    </div>
+    </fieldset>
+
+    @Html.DropDownListOptional("CuentaId", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", @ViewData["CuentaId"]))
+    <input type="submit" value="Filtrar" />    
+    </fieldset>
+    </div>
+    
+
+}
+
+<ul data-role="listview" data-inset="true" data-filter="true" class="pageitem">
+ 
+@foreach (var item in Model)
+{
+    <li class="store">
+    <a href="@Url.Action("Details", new { id = item.TransaccionId })">
+    <span class="name">@item.Descripcion</span>
+    (
+    <span class="comment">@if (@item.Cuenta != null)
+                          {
+            @item.Cuenta.Nombre
+                          }
+        @Html.DisplayText(" -> ")
+        @if (@item.CuentaTransf != null)
+        {
+            @item.CuentaTransf.Nombre
+        }
+    </span>
+    
+    <span class="starcomment">@if (@item.Concepto != null)
+                              {
+            @item.Concepto.Nombre
+                              }</span>
+        
+    <span class="arrow"></span>
+    <span class="price">@String.Format("{0:F}", item.Monto)</span>
+    )
+    </a>
+    </li>
+    
+}
+</ul>
+
+@*@{
+    var grid = new WebGrid(Model, rowsPerPage: 10);
+    grid.Pager(WebGridPagerModes.All);
+    @grid.GetHtml(columns: grid.Columns(
+                       grid.Column("", format: @<text>@Html.ActionLink(">>", "Details", new { id = item.TransaccionId })</text>),
+                    grid.Column("Fecha", "Fecha", canSort: true, format: @<text>@item.Fecha.ToShortDateString()</text>),
+                    grid.Column("Descripcion", "Descripcion", canSort: true),
+                    grid.Column("Monto", "Monto", canSort: true, format: @<text>@String.Format("{0:F}", item.Monto)</text>)
+                                                              ))
+
+
+}*@
+
+</div>

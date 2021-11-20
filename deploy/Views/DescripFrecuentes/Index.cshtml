@@ -1,0 +1,37 @@
+﻿@model IEnumerable<GastosAppCore.Domain.DescripFrecuente>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Favoritos";
+    
+}
+ 
+
+<h3>Favoritos</h3>
+<script language="javascript" type="text/javascript">
+    document.body.className = '';
+ </script>
+<div class="content">
+<div >
+@Html.ActionBtnIcon("Crear", "Create", "DescripFrecuentes", "glyphicon-plus-sign", "btn-success")
+</div>
+@{
+
+    var grid = new WebGrid(Model, rowsPerPage: 100);
+    
+@grid.GetHtml(columns: grid.Columns(
+                       grid.Column("", format: @<text>@Html.ActionLink("Editar", "Edit", new { id = item.DescripFrecuenteId })</text>),
+                    grid.Column("", format: @<text>@Html.ActionLink("Borrar", "Delete", new { id = item.DescripFrecuenteId })</text>),
+
+                    grid.Column("Nombre", "Nombre", canSort: true),
+                    grid.Column("Monto", "Monto", canSort: true, format: @<text>@String.Format("{0:F}", item.Monto)</text>),
+                    grid.Column("Concepto", "Concepto", canSort: true, format: @<text>@if (@item.Concepto != null)
+                                                                                      { @item.Concepto.Nombre }</text>),
+                    grid.Column("Cuenta", "Cuenta", canSort: true, format: @<text>@if (@item.Cuenta != null)
+                                                                                  { @item.Cuenta.Nombre }</text>),
+                    grid.Column("CuentaTransf", "CuentaTransf", canSort: true, format: @<text>@if (@item.CuentaTransf != null)
+                                                                                              { @item.CuentaTransf.Nombre }</text>),
+                    grid.Column("Activo", "Activo", canSort: true)
+                                                              ))
+
+    }
+</div>

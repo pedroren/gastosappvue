@@ -1,0 +1,90 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Moneda>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Monedas";
+}
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/jtable/themes/lightcolor/green/jtable.min.css")"  /> 
+@section scripts {
+<script src="@Url.Content("~/Scripts/jtable/jquery.jtable.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //Prepare jtable plugin
+        $('#PersonTable').jtable({
+            title: 'Moneda List',
+            actions: {
+                listAction: '@Url.Action("GetList", "Monedas")',
+                deleteAction: '@Url.Action("DeleteEntity", "Monedas")',
+                updateAction: '@Url.Action("UpdateEntity", "Monedas")',
+                createAction: '@Url.Action("CreateEntity", "Monedas")'
+            },
+            fields: {
+                MonedaId: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Nombre: {
+                    title: 'Nombre',
+                    width: '15%'
+                },
+                Abreviatura: {
+                    title: 'Abreviatura',
+                    width: '15%'
+                },
+                Tasa: {
+                    title: 'Tasa',
+                    width: '15%'
+                },
+                EsPrincipal: {
+                    title: 'EsPrincipal',
+                    width: '10%',
+                    type: 'checkbox',
+                    values: { 'false': 'No', 'true': 'Sí' },
+                    defaultValue: 'false'
+                }
+            },
+            messages: {
+                serverCommunicationError: 'Ocurrio un error al intentar comunicarse con el servidor.',
+                loadingMessage: 'Cargando los registros...',
+                noDataAvailable: '¡No se encontro ningun registro!',
+                addNewRecord: '+ Agregar nuevo registro',
+                editRecord: 'Editar',
+                areYouSure: '¿Esta seguro de la operación?',
+                deleteConfirmation: '¿Esta seguro que desea eliminar el registro?',
+                save: 'Guardar',
+                saving: 'Guardando',
+                cancel: 'Cancelar',
+                deleteText: 'Eliminar',
+                deleting: 'Eliminando',
+                error: 'Error',
+                close: 'Cerrar',
+                cannotLoadOptionsFor: 'No se pudo cargar las opciones del campo {0}',
+                pagingInfo: 'Mostrando {0} de {1} de {2} registros',
+                canNotDeletedRecords: 'No se puede eliminar {0} de {1} registros',
+                deleteProggress: 'Eliminando {0} de {1} registros, Por favor espere...'
+            }
+        });
+
+        //Load person list from server
+        $('#PersonTable').jtable('load');
+    });
+
+</script>
+
+}
+
+
+<h3>Monedas</h3>
+<div class="content">
+<div id="bluerightbutton">
+    @Html.ActionBtnIcon("Crear", "Create", "Monedas", "glyphicon-plus-sign", "btn-success")
+</div>
+
+<div id="PersonTable" style="width: 580px; margin: auto;"></div>
+</div>
+
+

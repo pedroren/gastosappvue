@@ -1,0 +1,61 @@
+﻿@model IEnumerable<GastosAppCore.Domain.TransImportTag>
+
+@{
+    ViewBag.Title = "TransImportTags";
+}
+@section scripts {
+@Scripts.Render("~/bundles/knockout")
+@Scripts.Render("~/bundles/jqueryval")
+    
+<script type="text/javascript">
+    $(function () {
+        $("input:submit").button({
+            icons: {
+                primary: "ui-icon-disk"
+            }
+        });
+
+    });
+    var initialData = @Html.Raw(Json.Encode(Model));
+    var supportData1 = @Html.Raw(Json.Encode(ViewBag.Conceptos));
+    var postURL = '@Url.Action("TransImportTags", "Import")';
+    var newItemTemplate = @Html.Raw(Json.Encode(ViewBag.NewItem));
+
+</script>
+<script src="@Url.Content("~/Scripts/app/TransImportTags.js")" type="text/javascript"></script>
+}
+<h2>TransImportTags</h2>
+
+<form>
+<fieldset>
+ <p>You have <span data-bind="text: listaTags().length">&nbsp;</span> item(s)</p>
+<div id="content">
+<table>
+    <tbody data-bind="template: { name: 'transImportItemRowTemplate', foreach: listaTags }"></tbody>
+</table>
+ 
+<script type="text/html" id="transImportItemRowTemplate">
+    <tr>
+       <td>Tag:  <input data-bind="value: Tag"/></td>
+        <td>
+        <select id="Concepto" 
+            data-bind='
+                options: viewModel.listaConcepto, 
+                optionsValue : "ConceptoId", 
+                optionsText: "NombreConPadre", 
+                optionsCaption: "[Please select a concept]", 
+                value: Concepto.ConceptoId'>
+        </select>
+        </td>
+        <td><a href="#" data-bind="click: function() { viewModel.removeConceptoItem($data) }" class="btn btn-danger btn-mini">Borrar</a></td>
+    </tr>
+</script>
+
+<button data-bind="click: addConceptoItem" class="btn btn-primary btn-small">Crear</button>
+</div>
+    <button data-bind="enable: listaTags().length > 0" type="submit" class="btn btn-success">Salvar</button>
+    </fieldset>
+</form>
+<div id="footer">
+</div>
+

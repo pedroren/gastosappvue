@@ -1,0 +1,60 @@
+﻿@model GastosAppMvc.Infrastructure.RepSumConceptoHolder
+
+<div style="float:left; width:50%;">
+<table id="tblReporte" style="visibility: @Model.TablaVisibleString">
+<thead>
+    <tr>
+        
+        <th>
+            Concepto
+        </th>
+        <th>
+            Total
+        </th>
+        <th>
+            Horas Vida
+        </th>
+    </tr>
+</thead>
+<tbody>
+@foreach (var item in Model.SumConceptos) 
+ {
+            <tr>
+            
+ <th>@Html.ActionLink(item.Concepto.Nombre, "Index", new { controller = "Transacciones", ConceptoId = item.Concepto.ConceptoId, FechaDesde = @ViewData["FechaDesde"], FechaHasta = @ViewData["FechaHasta"] })</th>
+
+ <td align="right">
+    @if(item.TotalMonto < 0) 
+    {    
+        <span class="negative">@Html.DisplayFor(modelItem => item.TotalMonto)</span>
+        } 
+        else    {    
+        <span class="positive">@Html.DisplayFor(modelItem => item.TotalMonto)</span>
+        }
+  
+ 
+ </td>
+ <td align="right">
+ @if(item.TotalMonto < 0) 
+ {
+    @Html.DisplayFor(modelItem => item.HorasVida)
+     }
+ </td>
+ </tr>
+     }
+</tbody>
+ <tfoot> <tr> <td></td>
+ <td colspan="2">
+ @if (ViewBag.Positivos != null)
+ {
+ <div>Ingresos: <span class="text-success">@String.Format("{0:C}", ViewBag.Positivos)</span></div>
+ <div>Gastos: <span class="text-danger">@String.Format("{0:C}", ViewBag.Negativos)</span></div>
+ <div>Horas Vida: <span class="text-danger">@String.Format("{0:########}", ViewBag.HorasVida)</span></div>
+ }
+ </td> </tr> </tfoot>
+</table>
+
+
+</div>
+<div id="grafica" style="width: 420px;height: 250px; float:left;"></div>
+</div>

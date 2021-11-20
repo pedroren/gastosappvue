@@ -1,0 +1,41 @@
+﻿@model GastosAppCore.Domain.Concepto
+
+@{
+    ViewBag.Title = "Crear Concepto";
+}
+@{
+    if (Model.ConceptoId == 0)
+    {
+        ViewBag.Title = "Create";
+    }
+    else
+    {
+        ViewBag.Title = "Editar";
+    }        
+}
+@if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+{
+    if (Model.ConceptoId == 0)
+    {
+    <div id="topbar"><div id="title">Registrar</div> </div>    
+    }
+    else
+    {
+    <div id="topbar"><div id="title">Editar</div> </div>    
+    }
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $("input:submit").button({
+                icons: {
+                    primary: "ui-icon-disk"
+                }
+            });
+        });
+    </script>
+}
+
+@{Html.RenderPartial("CreateEditPartial", Model);}

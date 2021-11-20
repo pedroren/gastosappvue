@@ -1,0 +1,16 @@
+USE gastosdb
+go
+
+CREATE TABLE Facturas(
+FacturaID INT IDENTITY(1,1) PRIMARY KEY,
+Nombre NVARCHAR(100) NULL,
+DescripFrecuenteId INT NULL,
+Frecuencia CHAR(1) NOT NULL DEFAULT 'M',
+Dia SMALLINT NOT NULL,
+Mes SMALLINT NULL,
+ProxFecha DATETIME,
+UltFecha DATETIME NULL,
+UltMonto DECIMAL(18,2) NULL,
+Activo BIT NOT NULL DEFAULT 1,
+UsuarioId int NOT NULL)
+GO

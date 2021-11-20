@@ -1,0 +1,160 @@
+﻿@model IEnumerable<GastosAppMvc.Models.HistConcepto>
+
+@{
+    ViewBag.Title = "RepHistConcepto";
+}
+@section scripts {
+    @Scripts.Render("~/bundles/flot")
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="@Url.Content("~/Scripts/excanvas.min.js")"></script><![endif]--> 
+    <script src="@Url.Content("~/Scripts/app/jsReportUtil.js")" type="text/javascript"></script>
+
+   <script>
+       $(function () {
+           bindDatePicker($('#FechaDesde'));
+           bindDatePicker($('#FechaHasta'));
+
+           $("#tabs").tabs();
+           MuestraGrafica();
+           $(':checkbox').click(MuestraGrafica);
+       });
+
+       function MuestraGrafica() {
+           var conceptos = [];
+           
+           $("#choices").find("input:checked").each(function () {
+               var key = $(this).attr("name");
+               if (key)
+                   conceptos.push(key);
+           });
+
+           var invertir = -1;
+           if ($("#chkInvertir").is(':checked'))
+               var invertir = -1;
+           else
+               var invertir = 1;
+
+           var data = parseTableDataSeries($("#tblReporte"), conceptos, graphticks);
+           $.plot($("#grafica"), data,
+	    {
+	        series: {
+	            lines: {
+	                show: true
+	            }
+	        },
+	        grid: {
+	            hoverable: true,
+	            clickable: false
+	        },
+	        points: {
+	            show: true,
+	            radius: 3
+	        },
+	        legend: {
+	            container: $("#legend")
+	        },
+	        yaxis: {
+	            transform: function (v) { return v * invertir; },
+	            inverseTransform: function (v) { return v * invertir; }
+	        },
+	        xaxis: {
+	            //tickDecimals: 0,
+	            //tickSize: 1,
+	            //tickFormatter: function (v, a) { return v }
+	            //ticks: [[201212,'2012-12'],[201301,'2013-01']]
+	            ticks: graphticks
+	        }
+
+	    });
+
+           $("#grafica").bind("plothover", lineHover);
+       }
+    </script>
+}
+<h3>RepHistConcepto</h3>
+<div class="content">
+
+<div id="filter-box" class="form-inline">
+@using (Html.BeginForm())
+{
+<label>Desde </label>
+<input name="FechaDesde" id="FechaDesde" type="text" value="@ViewData["FechaDesde"]" size="12" class="input-small"/>
+<label>Hasta </label>
+<input name="FechaHasta" id="FechaHasta" type="text" value="@ViewData["FechaHasta"]" size="12" class="input-small"/>
+<input type="submit" value="Filtrar" />
+}
+</div>
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Grafica</a></li>
+		<li><a href="#tabs-2">Datos</a></li>
+	</ul>
+<div id="tabs-2">
+<div style="clear:both;; width:100%;" >
+<table id="tblReporte">
+<thead>
+    <tr>
+        <th>Concepto</th>
+@foreach (var item in ViewBag.ListaAnoMes as List<string>)
+{
+        <th  align="right">
+        @item
+        </th>
+    
+}    
+    </tr>
+</thead>
+<tbody>
+@foreach (var item in Model) 
+{
+    <tr>
+        <th>@item.Concepto.Nombre
+        </th>
+    @foreach (var am in ViewBag.ListaAnoMes as List<string>)
+    {
+        decimal monto = 0;
+        <td align="right">
+            
+           @foreach (var item_am in item.AnoMes)
+           {
+               if (item_am.AnoMes == am)
+               {
+                   @*<span>@Html.DisplayFor(modelItem => item_am.TotalMonto)</span>*@
+                   monto = item_am.TotalMonto;
+               }
+               @*else
+               {
+                   <span>0.00</span>
+               }*@
+           }    
+           <span>@monto.ToString("C")</span>
+        </td>
+    
+    }
+    </tr>
+}
+</tbody>
+</table>
+
+</div>
+</div>
+<div id="tabs-1">
+<div style="font-weight:bold;"><input type="checkbox" name="chkInvertir" id="chkInvertir" checked="checked" /><label for="chkInvertir">Invertir grafica</label></div>
+<div id="choices">
+<ul>
+@foreach (var item in Model) 
+{
+    <li>
+<input type="checkbox" name="@item.Concepto.Nombre" id="@("id"+item.Concepto.Nombre)"/>
+                               <label for="@("id"+item.Concepto.Nombre)"> @item.Concepto.Nombre  </label>
+    </li>
+}
+</ul>
+<br />
+</div>
+<div id="grafica" style="width: 100%;height: 250px; clear:both;"></div>
+
+<div id="legend" style="width: 420px;height: 150px; clear:both;"></div>
+</div>
+
+</div>
+</div>

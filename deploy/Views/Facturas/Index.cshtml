@@ -1,0 +1,86 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Factura>
+
+@{
+    ViewBag.Title = "Facturas";
+}
+
+@section scripts {
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("table").styleTable();
+
+    });
+
+</script>
+}
+
+<h3>Facturas Recurrentes</h3>
+
+<p>
+    @Html.ActionBtnIcon("Crear", "Create", "Facturas", "glyphicon-plus-sign", "btn-success")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Frecuencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProxFecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UltFecha)
+        </th>
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.UltMonto)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+			@Html.ActionLink(item.Nombre, "Edit", new { id=item.FacturaId })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Frecuencia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProxFecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UltFecha)
+        </td>
+        <td style="text-align:right;">
+            @Html.DisplayFor(modelItem => item.UltMonto)
+        </td>
+        <td>
+            
+            @Html.ActionLink("Delete", "Delete", new { id = item.FacturaId }, new {@class="btn btn-danger btn-mini"})  |
+            @Html.ActionLink("Pagar", "Create", "Transacciones", new { FacturaId=item.FacturaId }, new {@class="btn btn-primary btn-mini"}) 
+        </td>
+    </tr>
+}
+
+</table>

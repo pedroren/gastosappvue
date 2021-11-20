@@ -1,0 +1,57 @@
+﻿@model GastosAppCore.Domain.DescripFrecuente
+@using GastosAppMvc.Helpers
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset >
+        <legend>DescripFrecuente</legend>
+        @Html.HiddenFor(model => model.DescripFrecuenteId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre)
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Concepto)
+            @if (Model.Concepto != null)
+            {@Html.DropDownListOptional("Concepto", new SelectList(ViewBag.Conceptos as System.Collections.IEnumerable, "ConceptoId", "NombreConPadre", Model.Concepto.ConceptoId))}
+            else
+            {@Html.DropDownListOptional("Concepto", new SelectList(ViewBag.Conceptos as System.Collections.IEnumerable, "ConceptoId", "NombreConPadre", ""))}                                                                                                                                                                      
+            @Html.ValidationMessageFor(model => model.Concepto)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Monto)
+            @Html.EditorFor(model => model.Monto)
+            @Html.ValidationMessageFor(model => model.Monto)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cuenta)
+            @if (Model.Cuenta != null)
+            {@Html.DropDownListOptional("Cuenta", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", Model.Cuenta.CuentaId))}    
+            else
+            {@Html.DropDownListOptional("Cuenta", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", ""))}        
+
+            @Html.ValidationMessageFor(model => model.Cuenta)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CuentaTransf)
+            @if (Model.CuentaTransf != null)
+            {@Html.DropDownListOptional("CuentaTransf", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", Model.CuentaTransf.CuentaId))}
+            else
+            {@Html.DropDownListOptional("CuentaTransf", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", ""))}
+            @Html.ValidationMessageFor(model => model.CuentaTransf)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Activo)
+            @Html.EditorFor(model => model.Activo)
+        </div>
+    <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+<div id="rightnav">
+    @Html.ActionLink("Regresar", "Index")
+</div>

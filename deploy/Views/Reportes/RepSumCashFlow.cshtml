@@ -1,0 +1,92 @@
+﻿@model IEnumerable<GastosAppMvc.Models.SumCashFlow>
+
+@{
+    ViewBag.Title = "CashFlow";
+}
+@section scripts {
+    @Scripts.Render("~/bundles/flot")
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="@Url.Content("~/Scripts/excanvas.min.js")"></script><![endif]--> 
+    <script src="@Url.Content("~/Scripts/app/jsReportUtil.js")" type="text/javascript"></script>
+
+<script>
+    $(function () {
+        bindDatePicker($('#FechaDesde'));
+        bindDatePicker($('#FechaHasta'));
+
+        var data = parseTableData($("#tblReporte"), -1);
+        $.plot($("#grafica"), data,
+	    {
+	        series: {
+	            pie: {
+	                show: true
+	            }
+	        },
+	        grid: {
+	            hoverable: true,
+	            clickable: false
+	        }
+	    });
+        $("#grafica").bind("plothover", pieHover);
+
+    });
+    </script>
+}
+<h3>CashFlow</h3>
+<div class="content">
+
+<div id="filter-box" class="form-inline">
+@using (Html.BeginForm())
+{
+<label>Desde </label>
+<input name="FechaDesde" id="FechaDesde" type="text" value="@ViewData["FechaDesde"]" class="input-small"/>
+<label>Hasta </label>
+<input name="FechaHasta" id="FechaHasta" type="text" value="@ViewData["FechaHasta"]" class="input-small"/>
+
+<input type="submit" value="Filtrar" />
+}    
+</div>
+<div style="width:100%;">
+<div style="float:left; width:50%;">
+<table id="tblReporte">
+<thead>
+    <tr>
+        <th>
+            Concepto
+        </th>
+        <th>
+            Total
+        </th>
+    </tr>
+</thead>
+<tbody>
+@foreach (var item in Model) 
+ {
+            <tr>
+
+        <th>
+    @item.NombreConcepto
+ </th>
+ <td align="right">
+    @if(item.TotalMonto < 0) 
+    {    
+        <span class="negative">@Html.DisplayFor(modelItem => item.TotalMonto)</span>
+        } 
+        else    {    
+        <span class="positive">@Html.DisplayFor(modelItem => item.TotalMonto)</span>
+        }
+  
+ 
+ </td>
+ </tr>
+ }
+ </tbody>
+ <tfoot> <tr> <td></td>
+ <td colspan=2>
+ <div>Ingresos: <span class="positive">@String.Format("{0:C}", ViewBag.Positivos)</span></div>
+ <div>Egresos: <span class="negative">@String.Format("{0:C}", ViewBag.Negativos)</span></div>
+ </td> </tr> </tfoot>
+     </table>
+</div>
+<div id="grafica" style="width: 420px;height: 250px; float:left;  "></div>
+</div>
+</div>

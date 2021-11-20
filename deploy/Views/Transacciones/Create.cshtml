@@ -1,0 +1,116 @@
+﻿@model GastosAppCore.Domain.Transaccion
+
+@{
+    if(Model.TransaccionId==0){
+        ViewBag.Title = "Registrar Transaccion";
+    }
+    else {
+        ViewBag.Title = "Editar Transaccion";
+    }
+}
+@if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+{
+    if (Model.TransaccionId == 0) {
+    <div id="topbar"><div id="title">Registrar</div> </div>    
+    }
+    else {
+    <div id="topbar"><div id="title">Editar</div> </div>    
+    }
+}
+@section navbar_left{
+    @Html.ActionLink("Regresar", "Index", null, new { data_role = "button", data_icon = "arrow-l", data_inline = "false", data_mini = "true", data_iconpos = "notext", @class = "ui-btn-left" }) 
+}
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @if (@ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+    {
+        @Scripts.Render("~/bundles/autocompletemobile")
+        
+    }
+    <script src="@Url.Content("~/Scripts/app/jsNewEditTrans.js")" type="text/javascript"></script>
+    @if (ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+    {
+        <script type="text/javascript">
+            function inicializa2() {
+                
+            }
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            function inicializa2() {
+                $("input:submit").button({
+                    icons: {
+                        primary: "ui-icon-disk"
+                    }
+                });
+                $("#radio").buttonset();
+            }
+        </script>
+    }
+
+	<script type="text/javascript">    
+    function inicializa() {
+        listado = [@Html.ListStringSet(new SelectList(ViewBag.DescripFrecuentes as System.Collections.IEnumerable, "DescripFrecuenteId", "Nombre"))];
+        asigna_autocomplete(listado,'@Url.Action("BuscaDescripFrecuente", "Transacciones")');
+        bindDatePicker($("#Fecha"));
+        
+
+        cambiaTipoTrans();
+        $("[name=Descripcion]").focus();
+
+        $("#radio :input").click(function (e) {
+            cambiaTipoTrans();
+            });
+        $("[name=CuentaTransf]").change(function (e){
+            cambiaCuentaTransf('@Url.Action("BuscaTasaMonedaCuenta", "Transacciones")');
+            });
+        $("[name=Monto]").change(function (e){
+            calculaMontoTransf();
+            });
+        $("[name=TasaTransf]").change(function (e){
+            calculaMontoTransf();
+            });
+        
+    }
+
+        
+</script>
+
+    @if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+    { 
+	<script type="text/javascript">
+		$(document).ready(function () {
+		    inicializa();
+		    inicializa2();
+		});
+	</script>
+    }
+    else
+    {
+    <script type="text/javascript">
+        $( document ).on("pageinit", "#myPage", function () {
+            inicializa();
+        });
+    </script>
+    }
+
+
+}
+
+
+
+<div class="content">
+<ul class="pageitem">
+      @{Html.RenderPartial("CreateEditTrans", Model);}
+      
+        
+        
+</ul>
+</div>
+
+<div id="rightnav">
+    @Html.ActionLink("Regresar", "Index")
+</div>
+

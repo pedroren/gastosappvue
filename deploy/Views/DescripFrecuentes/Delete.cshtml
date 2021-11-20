@@ -1,0 +1,24 @@
+﻿@model GastosAppCore.Domain.DescripFrecuente
+
+@{
+    ViewBag.Title = "Borrar";
+}
+
+<div id="topbar"><div id="title">Borrar</div> </div>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>DescripFrecuente</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">@Model.Nombre</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+    </p>
+        <div id="leftnav">@Html.ActionLink("Regresar", "Index")</div>
+
+}
+
+

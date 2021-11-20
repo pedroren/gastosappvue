@@ -1,0 +1,36 @@
+﻿@model GastosAppCore.Domain.TransImportMap
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Mapa Importacion</h2>
+
+@section scripts {
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/knockout")
+<script type="text/javascript">
+    var initialData = @Html.Raw(Json.Encode(Model));
+    var nuevoCampoTemplate = @Html.Raw(Json.Encode(ViewBag.NewItem));
+</script>
+<script src="@Url.Content("~/Scripts/app/ImportCreateEdit.js")" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function () { 
+   
+//    $("#submit").button({
+//        icons: {
+//            primary: "ui-icon-disk"
+//        }
+//    });
+});
+$("form").validate({ submitHandler: function() { viewModel.save() } });
+</script>
+}
+    
+
+        @{Html.RenderPartial("CreateEditPartial", Model);}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,17 @@
+﻿@model GastosAppMvc.Infrastructure.HomeHolder
+@{
+    ViewBag.Title = "GastosApp";
+}
+           
+
+<ul data-role="listview" data-inset="true" >
+    <li>@Html.ActionLink("Registrar", "Create", "Transacciones")</li>
+    <li>@Html.ActionLink("Transacciones", "Index", "Transacciones")</span></li>
+    <li>@Html.ActionLink("Facturas", "Index", "Facturas")</li>
+    <li>@Html.ActionLink("Conceptos", "Index", "Conceptos")</li>
+    <li>@Html.ActionLink("Monedas", "Index", "Monedas")</li>
+    <li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
+    <li>@Html.ActionLink("Favoritos", "Index", "DescripFrecuentes")</li>
+    <li>@Html.ActionLink("Reportes", "Index", "Reportes")</li>
+</ul>
+

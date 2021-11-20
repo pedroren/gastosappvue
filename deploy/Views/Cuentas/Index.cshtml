@@ -1,0 +1,134 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Cuenta>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Cuentas";
+}
+
+@section scripts {
+@Scripts.Render("~/bundles/knockout")
+<script>
+    var newItemTemplate = @Html.Raw(Json.Encode(ViewBag.NewItem));
+</script>
+@Scripts.Render("~/bundles/cuenta")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        ko.applyBindings(new cuentaViewModel());
+//        $("#btnCreate").button({
+//            icons: {
+//                primary: "ui-icon-circle-plus"
+//            }
+//        });
+//        $("#btnRefresh").button({
+//            icons: {
+//                primary: "ui-icon-refresh"
+//            }
+//        });
+        $("#dialog-confirm").hide();
+//        $("#btnSave").button({
+//            icons: {
+//                primary: "ui-icon-disk"
+//            }
+//        });
+
+        $("#recordPanel").hide();
+
+        $("table").styleTable();
+        
+    });
+
+</script>
+}
+
+<h3>Cuentas</h3>
+<div class="content">
+<div id="bluerightbutton">
+    @*@Html.ActionSpanIcon("Crear", "Create", "Cuentas", "ui-icon-circle-plus")*@
+</div>
+
+
+<div style="float: left;">
+<button data-bind="click: newrecord" id="btnCreate" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i> Crear</button>
+
+<table data-bind="visible: cuentas().length > 0">
+<caption>
+<a data-bind="click: refresh" id='btnRefresh' href='#' class="btn"><i class="glyphicon glyphicon-refresh"></i> Refresh</a>
+</caption>
+<thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Nombre</th>
+        <th scope="col">TipoCuenta</th>
+        <th scope="col">Moneda</th>
+        <th scope="col">Balance</th>
+        <th scope="col">Activo</th>
+    </tr>
+</thead>
+<tbody id="cuentas" data-bind="foreach: cuentas">
+<tr data-bind="css: { danger: Balance() < 0, success: Balance() >= 0 }">
+    <td><span data-bind="text: CuentaId"></span></td>
+    <td><a href="" data-bind="text: Nombre,  click: $root.getdetails" style="display:block;"></a></td>
+    <td><span data-bind="text: TipoCuenta.Nombre"></span></td>
+    <td><span data-bind="text: Moneda.Nombre"></span></td>
+    <td style="text-align:right;">
+        <span data-bind="text: FormattedBalance, css: { 'text-danger': Balance() < 0, 'text-success': Balance() > 0 }"></span>
+
+    </td>
+    <td><input type="checkbox" data-bind="checked: Activo" disabled="disabled"/></td>
+    <td><a href="" data-bind="click: $root.remove" class="btn btn-danger btn-mini">Borrar</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="recordPanel" title="Cuenta">
+<div data-bind="with: cuenta" >
+<form >
+<fieldset>
+    <legend>Cuenta</legend>
+    <div class="form-group">
+    <label>Nombre:</label><input data-bind="value: Nombre" class="form-control"/>
+    </div>
+    <div class="form-group">
+    <label>Tipo Cuenta: </label>
+    <select id="TipoCuenta" 
+            data-bind='
+    options: $root.tipocuentas,
+    optionsValue: "TipoCuentaId",
+    optionsText: "Nombre",
+    optionsCaption: "[Tipo Cuenta]",
+    value: TipoCuenta.TipoCuentaId'
+        class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+    <label>Moneda: </label>
+    <select id="Moneda" 
+            data-bind='
+    options: $root.monedas,
+    optionsValue: "MonedaId",
+    optionsText: "Nombre",
+    optionsCaption: "[Moneda]",
+    value: Moneda.MonedaId'
+        class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+    <label>Balance: </label><input data-bind="value: Balance" type="number", step="0.01" class="form-control"/>
+    </div>
+    <div class="form-group">
+    <label class="checkbox">
+    <input type="checkbox" data-bind="checked: Activo" />Activo</label>
+    </div>
+</fieldset>
+    
+</form>
+</div>
+</div>
+
+</div>
+<div id="dialog-confirm" title="Borrar registro?" >
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>El registro se eliminara. Esta seguro?</p>
+</div>
+

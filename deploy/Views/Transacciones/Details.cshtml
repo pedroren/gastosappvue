@@ -1,0 +1,58 @@
+﻿@model GastosAppCore.Domain.Transaccion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div id="topbar"><div id="title">Detalle</div> </div>    
+<div class="content">
+
+<fieldset>
+    <legend>Transaccion</legend>
+
+    <div class="display-label">Fecha</div>
+    <div class="display-field">@String.Format("{0:g}", Model.Fecha)</div>
+
+    <div class="display-label">Descripcion</div>
+    <div class="display-field">@Model.Descripcion</div>
+
+    <div class="display-label">Concepto</div>
+    <div class="display-field">@if (Model.Concepto != null)
+                          {
+            @Model.Concepto.Nombre
+                          }</div>
+
+    <div class="display-label">Monto</div>
+    <div class="display-field">@String.Format("{0:F}", Model.Monto)</div>
+
+    <div class="display-label">Cuenta</div>
+    <div class="display-field">
+        @if (Model.Cuenta != null)
+                          {
+            @Model.Cuenta.Nombre
+                          }</div>
+
+    <div class="display-label">CuentaTransf</div>
+    <div class="display-field">
+        @if (Model.CuentaTransf != null)
+        {
+            @Model.CuentaTransf.Nombre
+        }</div>
+
+    <div class="display-label">Comentario</div>
+    <div class="display-field">@Model.Comentario</div>
+
+
+    <div class="display-label">TasaTransf</div>
+    <div class="display-field">@String.Format("{0:F}", Model.TasaTransf)</div>
+
+    <div class="display-label">MontoTransf</div>
+    <div class="display-field">@String.Format("{0:F}", Model.MontoTransf)</div>
+</fieldset>
+</div>
+<div data-role="controlgroup" data-type="horizontal">
+    @Html.ActionLink("Regresar", "Index", null, new { @data_role = "button", @data_icon = "arrow-l" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TransaccionId }, new { @data_role = "button", @data_icon = "gear" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.TransaccionId }, new { @data_role = "button", @data_icon = "delete" }) 
+</div>
+

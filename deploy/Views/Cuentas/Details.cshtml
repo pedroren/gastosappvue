@@ -1,0 +1,23 @@
+﻿@model GastosAppCore.Domain.Cuenta
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Cuenta</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">@Model.Nombre</div>
+
+    <div class="display-label">MonedaId</div>
+    <div class="display-field">@Model.Moneda.MonedaId</div>
+</fieldset>
+<div data-role="controlgroup" data-type="horizontal">
+    @Html.ActionLink("Regresar", "Index", null, new { @data_role = "button", @data_icon = "arrow-l" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CuentaId }, new { @data_role = "button", @data_icon = "gear" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.CuentaId }, new { @data_role = "button", @data_icon = "delete" }) 
+</div>
+

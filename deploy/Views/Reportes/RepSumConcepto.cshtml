@@ -1,0 +1,57 @@
+﻿@model GastosAppMvc.Infrastructure.RepSumConceptoHolder
+@using GastosAppMvc.Models
+@{
+    ViewBag.Title = "Sumaria Conceptos";
+}
+@section scripts {
+<script>
+    $(function () {
+        bindDatePicker($('#FechaDesde'));
+        bindDatePicker($('#FechaHasta'));
+
+    });
+    </script>
+
+        @Scripts.Render("~/bundles/flot")
+    <!--[if IE]><script src="@Url.Content("~/Scripts/excanvas.min.js")"></script><![endif]-->
+    <script src="@Url.Content("~/Scripts/app/jsReportUtil.js")" type="text/javascript"></script>
+
+<script>
+    $(function () {
+        var data = parseTableData($("#tblReporte"), -1);
+        $.plot($("#grafica"), data,
+	    {
+	        series: {
+	            pie: {
+	                show: true
+	            }
+	        },
+	        grid: {
+	            hoverable: true,
+	            clickable: false
+	        }
+	    });
+
+        $("#grafica").bind("plothover", pieHover);
+
+    });
+</script>
+}
+<h3>Sumaria Conceptos</h3>
+<div class="content">
+
+<div id="filter-box" class="form-inline">
+@using (Html.BeginForm())
+{
+<label>Desde </label>
+<input name="FechaDesde" id="FechaDesde" type="text" value="@ViewData["FechaDesde"]" size="12" class="input-small"/>
+<label>Hasta </label>
+<input name="FechaHasta" id="FechaHasta" type="text" value="@ViewData["FechaHasta"]" size="12" class="input-small"/>
+<input type="submit" value="Filtrar" />
+}
+</div>
+
+<div style="width:100%; ">
+@Html.Partial("_SumConcepto", Model)
+
+</div>

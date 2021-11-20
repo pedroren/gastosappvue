@@ -1,0 +1,97 @@
+﻿@model GastosAppCore.Domain.ParamUsuario
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script type="text/javascript">
+$(document).ready(function () {
+
+    function calculaSalHoraReal() {
+        var salrecibido, horastrabajadas, gastostrabajo, horasgastadas, salhorareal;
+        salrecibido = Number($('[name=SalarioRecibido]').val().replace(/[^0-9\.]+/g, ""));
+        horastrabajadas = Number($('[name=HorasTrabajadas]').val());
+        gastostrabajo = Number($('[name=GastosTrabajo]').val().replace(/[^0-9\.]+/g, ""));
+        horasgastadas = Number($('[name=HorasGastadas]').val());
+        salhorareal = Math.round((salrecibido - gastostrabajo) / (horastrabajadas + horasgastadas)).toFixed(2);
+        $('[name=SalarioHoraReal]').val(salhorareal);
+
+    }
+
+    $('[name=SalarioRecibido]').change(function (e){ 
+        calculaSalHoraReal();
+    });
+    $('[name=HorasTrabajadas]').change(function (e){ 
+        calculaSalHoraReal();
+    });
+    $('[name=GastosTrabajo]').change(function (e){ 
+        calculaSalHoraReal();
+    });
+    $('[name=HorasGastadas]').change(function (e) { 
+        calculaSalHoraReal();
+    });
+});
+</script>
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>ParamUsuario</legend>
+
+        @Html.HiddenFor(model => model.ParamUsuarioId)
+        @*@Html.HiddenFor(model => model.UsuarioId)  *@ 
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SalarioRecibido)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SalarioRecibido)
+            @Html.ValidationMessageFor(model => model.SalarioRecibido)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HorasTrabajadas)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HorasTrabajadas)
+            @Html.ValidationMessageFor(model => model.HorasTrabajadas)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GastosTrabajo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.GastosTrabajo)
+            @Html.ValidationMessageFor(model => model.GastosTrabajo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HorasGastadas)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HorasGastadas)
+            @Html.ValidationMessageFor(model => model.HorasGastadas)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SalarioHoraReal)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.SalarioHoraReal, new { @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.SalarioHoraReal)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

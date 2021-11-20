@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Import";
+}
+@using GastosAppMvc.Helpers
+
+<h2>Import</h2>
+@using (Html.BeginForm("Import", "Transacciones", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+    Formato: @Html.DropDownListOptional("TransImportMap", new SelectList(ViewBag.TransImportMaps as System.Collections.IEnumerable, "TransImportMapId", "Nombre", ""))
+    </div>
+    <div>
+    Cuenta: @Html.DropDownListOptional("Cuenta", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", ""))
+    </div>
+    <div>
+    <input type="file" name="file" />
+    <input type="submit" value="OK" />
+    </div>
+}

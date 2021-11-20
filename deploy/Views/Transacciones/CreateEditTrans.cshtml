@@ -1,0 +1,108 @@
+﻿@model GastosAppCore.Domain.Transaccion
+@using GastosAppMvc.Helpers
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+<fieldset class="form-horizontal">
+@if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+{
+        <legend>Transaccion</legend>
+}
+@Html.HiddenFor(model => model.TransaccionId)
+@if (Model.Factura != null)
+{
+    <input id="Factura" name="Factura" type="hidden" value=@Model.Factura.FacturaId />
+}
+<div data-role="fieldcontain">
+<div class="editor-label">
+    <div id="radio">
+        <fieldset data-role="controlgroup" data-type="horizontal" style="border: 0px;">
+            @foreach (GastosAppCore.Domain.TipoTransaccion tipot in ViewBag.TipoTransacciones)
+            {
+                if (Model.TipoTransaccion.TipoTransaccionId == tipot.TipoTransaccionId)
+                {
+                    @Html.RadioButtonFor(model => model.TipoTransaccion, tipot.TipoTransaccionId,  new { @id = "radio" + tipot.TipoTransaccionId.ToString(), Checked="checked"})
+                    }
+                else
+                {
+                    @Html.RadioButtonFor(model => model.TipoTransaccion, tipot.TipoTransaccionId, new { @id = "radio" + tipot.TipoTransaccionId.ToString() })
+                    }
+                @Html.LabelFor2(t => tipot.Nombre, new { @for = "radio" + tipot.TipoTransaccionId.ToString() })        
+            }
+        </fieldset>
+    </div>
+</div>
+</div>
+<div data-role="fieldcontain" class="form-group">
+            <span>@Html.LabelFor(model => model.Fecha)</span>
+            @Html.EditorFor(model => model.Fecha)
+            @Html.ValidationMessageFor(model => model.Fecha)
+</div>
+<div data-role="fieldcontain" class="form-group">
+            <span>@Html.LabelFor(model => model.Descripcion)</span>
+            @Html.TextBoxFor(model => model.Descripcion, new { autofocus = "autofocus", @class = "input-xlarge" })
+            @Html.ValidationMessageFor(model => model.Descripcion)
+            @if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice){
+                <ul id="suggestions" data-role="listview" data-inset="true"></ul>
+             }
+    
+</div>
+
+<div data-role="fieldcontain" id="pnlConceptoId" class="form-group">
+        @Html.LabelFor(model => model.Concepto)
+        
+        @if (Model.Concepto != null)
+        {@Html.DropDownListOptional("Concepto", new SelectList(ViewBag.Conceptos as System.Collections.IEnumerable, "ConceptoId", "NombreConPadre", Model.Concepto.ConceptoId))}
+        else
+        {@Html.DropDownListOptional("Concepto", new SelectList(ViewBag.Conceptos as System.Collections.IEnumerable, "ConceptoId", "NombreConPadre", ""))}                                                                                                                                                                       
+        @Html.ValidationMessageFor(model => model.Concepto)
+        
+</div>
+
+<div data-role="fieldcontain" class="form-group">
+            <span>@Html.LabelFor(model => model.Monto)</span>
+            @Html.TextBoxFor(model => model.Monto, new { @type = "number", step = "0.01", @class = "input-small" })
+            @Html.ValidationMessageFor(model => model.Monto)
+</div>
+<div data-role="fieldcontain" class="form-group">
+            <span>@Html.LabelFor(model => model.Cuenta)</span>
+        @if (Model.Cuenta != null)
+        {@Html.DropDownListOptional("Cuenta", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", Model.Cuenta.CuentaId))}
+        else
+        {@Html.DropDownListOptional("Cuenta", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", ""))}   
+            
+            @Html.ValidationMessageFor(model => model.Cuenta)
+</div>
+<div data-role="fieldcontain" id="pnlTransf" class="form-group">
+        @Html.LabelFor(model => model.CuentaTransf)
+        @if (Model.CuentaTransf != null)
+        {@Html.DropDownListOptional("CuentaTransf", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", Model.CuentaTransf.CuentaId))}
+        else
+        {@Html.DropDownListOptional("CuentaTransf", new SelectList(ViewBag.Cuentas as System.Collections.IEnumerable, "CuentaId", "Nombre", ""))}                                                                                                                                                                 
+            
+            @Html.ValidationMessageFor(model => model.CuentaTransf)
+
+</div>
+<div data-role="fieldcontain" id="pnlTasaTransf" class="form-group">
+        @Html.LabelFor(model => model.TasaTransf)
+            @Html.TextBoxFor(model => model.TasaTransf, new { @class = "input-mini" })
+            @Html.ValidationMessageFor(model => model.TasaTransf)
+        @Html.LabelFor(model => model.MontoTransf)
+            @Html.TextBoxFor(model => model.MontoTransf, new { @readonly = "readonly", @class = "input-small" })
+            @Html.ValidationMessageFor(model => model.MontoTransf)
+
+</div>
+<div data-role="fieldcontain" class="form-group">
+            @Html.LabelFor(model => model.Comentario)
+            @Html.EditorFor(model => model.Comentario)
+            @Html.ValidationMessageFor(model => model.Comentario)
+</div>        
+</fieldset>
+<p>
+    <input type="submit" value="Salvar" />
+</p>
+        
+    
+}

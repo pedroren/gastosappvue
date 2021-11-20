@@ -1,0 +1,54 @@
+﻿@model IEnumerable<GastosAppCore.Domain.TransImportMap>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Importaciones";
+}
+
+<h3>Importaciones</h3>    
+<div class="content">
+<div>
+@Html.ActionBtnIcon("Crear", "Create", "Import", "glyphicon-plus-sign", "btn-success")
+@Html.ActionBtnIcon("ImportTags", "TransImportTags", "Import", "glyphicon-tags", "btn-success")
+
+</div>
+<table>
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            SkipRows
+        </th>
+        <th>
+            EsExcel
+        </th>
+        <th>
+            Separador
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SkipRows)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EsExcel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Separador)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransImportMapId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TransImportMapId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TransImportMapId })
+        </td>
+    </tr>
+}
+
+</table>
+</div>

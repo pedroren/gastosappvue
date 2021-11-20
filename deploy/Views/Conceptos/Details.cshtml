@@ -1,0 +1,26 @@
+﻿@model GastosAppCore.Domain.Concepto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div id="topbar"><div id="title">Detalle</div> </div>
+<div class="content">
+<fieldset>
+    <legend>Concepto</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">@Model.Nombre</div>
+
+    <div class="display-label">ConceptoIdPadre</div>
+    <div class="display-field">@if (@Model.ConceptoPadre != null)
+                               {
+            @Model.ConceptoPadre.Nombre
+                               }</div>
+</fieldset>
+</div>
+<div data-role="controlgroup" data-type="horizontal">
+    @Html.ActionLink("Regresar", "Index", null, new { @data_role = "button", @data_icon = "arrow-l" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ConceptoId }, new { @data_role = "button", @data_icon = "gear" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ConceptoId }, new { @data_role = "button", @data_icon = "delete" }) 
+</div>

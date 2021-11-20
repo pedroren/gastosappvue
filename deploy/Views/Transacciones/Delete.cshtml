@@ -1,0 +1,55 @@
+﻿@model GastosAppCore.Domain.Transaccion
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Transaccion</legend>
+
+    <div class="display-label">Fecha</div>
+    <div class="display-field">@String.Format("{0:g}", Model.Fecha)</div>
+
+    <div class="display-label">Descripcion</div>
+    <div class="display-field">@Model.Descripcion</div>
+
+    <div class="display-label">Concepto</div>
+    <div class="display-field">@if (@Model.Concepto != null)
+                               { @Model.Concepto.Nombre }</div>
+
+    <div class="display-label">Monto</div>
+    <div class="display-field">@String.Format("{0:F}", Model.Monto)</div>
+
+    <div class="display-label">Cuenta</div>
+    <div class="display-field">@if (@Model.Cuenta != null)
+                               { @Model.Cuenta.Nombre }</div>
+
+    <div class="display-label">Cuenta Transf</div>
+    <div class="display-field">@if (@Model.CuentaTransf != null)
+                               { @Model.CuentaTransf.Nombre }</div>
+
+    <div class="display-label">Comentario</div>
+    <div class="display-field">@Model.Comentario</div>
+
+    <div class="display-label">TipoTransaccionId</div>
+    <div class="display-field">@if (@Model.TipoTransaccion != null)
+                               { @Model.TipoTransaccion.Nombre }</div>
+
+    <div class="display-label">TasaTransf</div>
+    <div class="display-field">@String.Format("{0:F}", Model.TasaTransf)</div>
+
+    <div class="display-label">MontoTransf</div>
+    <div class="display-field">@String.Format("{0:F}", Model.MontoTransf)</div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

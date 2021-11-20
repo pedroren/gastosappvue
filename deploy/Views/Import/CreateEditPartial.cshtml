@@ -1,0 +1,45 @@
+﻿@model GastosAppCore.Domain.TransImportMap
+ 
+
+<div class="content">
+<form >
+    <fieldset>
+        <legend>Mapeo de Importación</legend>
+        @Html.HiddenFor(model => model.TransImportMapId)
+@Html.ValidationSummary(true)
+<label>Descripcion: </label>
+<input data-bind="value: transaccion.Nombre"/>
+<label>SkipRows: </label>
+<input data-bind="value: transaccion.SkipRows"/>
+<label>Separador: </label>
+<input data-bind="value: transaccion.Separador"/>
+<label class="checkbox"><input type="checkbox" data-bind="checked: transaccion.EsExcel" />
+EsExcel:
+</label>
+<table>
+    <tbody data-bind="template: { name: 'conceptoItemRowTemplate', foreach: transaccion.Campos }"></tbody>
+</table>
+<button data-bind="click: addConceptoItem" class="btn btn-primary btn-small">Nuevo Campo</button>
+ 
+<script type="text/html" id="conceptoItemRowTemplate">
+    <tr>
+        <td>
+        <select id="Nombre" 
+            data-bind='
+                options: $root.listaNombres, 
+                optionsCaption: "[Please select a Nombre]", 
+                value: Nombre'>
+        </select>
+        </td>
+        <td>Posicion:  <input data-bind="value: Posicion"/></td>
+        <td><a href="#" data-bind="click: function() { viewModel.removeConceptoItem($data) }" class="btn btn-danger btn-mini">Borrar</a></td>
+    </tr>
+</script>
+<span class="help-block"><span data-bind="text: transaccion.Campos().length"></span> campos</span>
+</fieldset>
+
+<button data-bind="enable: transaccion.Campos().length > 0" type="submit" class="btn btn-success">Salvar</button>
+
+</form>
+</div>
+

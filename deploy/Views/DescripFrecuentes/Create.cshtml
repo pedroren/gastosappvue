@@ -1,0 +1,41 @@
+﻿@model GastosAppCore.Domain.DescripFrecuente
+
+@{
+    if (Model.DescripFrecuenteId == 0)
+    {
+        ViewBag.Title = "Registrar Descrip. Frecuente";
+    }
+    else
+    {
+        ViewBag.Title = "Editar Descrip. Frecuente";
+    }
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function () {
+            $("input:submit").button();
+        });
+</script>
+
+}
+
+@if (!ViewContext.HttpContext.GetOverriddenBrowser().IsMobileDevice)
+{
+    if (Model.DescripFrecuenteId == 0)
+    {
+    <div id="topbar"><div id="title">Registrar</div> </div>    
+    }
+    else {
+    <div id="topbar"><div id="title">Editar</div> </div>    
+    }
+}
+
+
+        @{Html.RenderPartial("CreateEditPartial", Model);}
+
+        
+
+

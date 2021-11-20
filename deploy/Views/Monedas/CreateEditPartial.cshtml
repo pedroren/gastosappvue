@@ -1,0 +1,70 @@
+﻿@model GastosAppCore.Domain.Moneda
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $("input:submit").button({
+            icons: {
+                primary: "ui-icon-disk"
+            }
+        });
+    });
+</script>
+<div class="content">
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Moneda</legend>
+        @Html.HiddenFor(model => model.MonedaId)
+
+        <div data-role="fieldcontain">
+        <div class="editor-label" >
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+        </div>
+
+        <div data-role="fieldcontain">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Abreviatura)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Abreviatura)
+            @Html.ValidationMessageFor(model => model.Abreviatura)
+        </div>
+        </div>
+
+        <div data-role="fieldcontain">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EsPrincipal)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EsPrincipal)
+            @Html.ValidationMessageFor(model => model.EsPrincipal)
+        </div>
+        </div>
+
+        <div data-role="fieldcontain">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Tasa)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Tasa)
+            @Html.ValidationMessageFor(model => model.Tasa)
+        </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" data-icon="check"/>
+        </p>
+    </fieldset>
+}
+</div>
+<div id="rightnav">
+    @Html.ActionLink("Regresar", "Index")
+</div>

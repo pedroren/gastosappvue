@@ -1,0 +1,56 @@
+﻿@model IEnumerable<GastosAppCore.Domain.DescripFrecuente>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Descripciones Frecuentes";
+    
+}
+ 
+
+<div id="topbar"><div id="title">Favoritos</div> </div> 
+<script language="javascript" type="text/javascript">
+    document.body.className = '';
+ </script>
+<div class="content">
+<div id="bluerightbutton">
+<div class="ui-bar ui-bar-a"> 
+<h3 style="display:inline-block; width:67%; margin-top:2px;">Listado</h3>
+@Html.ActionLink("Crear", "Create", null, new { data_role = "button", data_icon = "plus", data_inline = "true", data_mini = "true", @class = "ui-btn-right" }) 
+</div>
+</div>
+
+
+ <ul data-role="listview" data-inset="true" data-filter="true" class="pageitem">
+ 
+@foreach (var item in Model)
+{
+    <li class="store">
+    <a href="@Url.Action("Create", "Transacciones", new { DescripFrecuenteId = item.DescripFrecuenteId })">
+    
+    <span class="name">@item.Nombre</span>
+    (
+    <span class="comment">@if (@item.Cuenta != null)
+                          {
+            @item.Cuenta.Nombre
+                          }
+        @Html.DisplayText(" -> ")
+        @if (@item.CuentaTransf != null)
+        {
+            @item.CuentaTransf.Nombre
+        }
+    </span>
+    
+    <span class="starcomment">@if (@item.Concepto != null)
+                              {
+            @item.Concepto.Nombre
+                              }</span>
+        
+    <span class="arrow"></span>
+    <span class="price">@String.Format("{0:F}", item.Monto)</span>
+    )
+    </a>
+    </li>
+    
+}
+</ul>
+
+</div>

@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section scripts {
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/q")
+    @Scripts.Render("~/bundles/breeze")
+    <script src="@Url.Content("~/Scripts/Logger.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/PresupuestoViewModel.js")" type="text/javascript"></script>
+    }
+
+<h2>Index</h2>
+<table id="tblPresupuestos" class="table table-striped table-hover table-condensed">  
+     <thead>  
+       <tr>  
+         <th>Nombre</th>  
+         <th>Fecha Desde</th>  
+         <th>Fecha Hasta</th>  
+       </tr>  
+     </thead>  
+     <tbody id="presupuestoList" data-bind="foreach: presupuestos">  
+       <tr>  
+         <td class='value editable'>  
+           <div class="editor modal">  
+             <div class="modal-header">  
+               <h3>Edit Children</h3>  
+             </div>  
+             <div class="row offset1">  
+               <p>  
+                 <label>Nombre</label>  
+                 <input type="text" data-bind="value: Nombre" />  
+               </p>  
+               <p>  
+                 <label>Fecha Desde</label>  
+                 <input type="text" data-bind="value: FechaDesde" />  
+               </p>  
+               <p>  
+                 <label>Fecha Hasta</label>  
+                 <textarea data-bind="value: FechaHasta"></textarea>                  
+               </p>  
+             </div>  
+             <div class="modal-footer">  
+               <a href="#" data-dismiss="modal" class="btn presupuestoCancel">Cancel</a>  
+               <a href="#" data-dismiss="modal" class="btn btn-primary presupuestoSaver">Save</a>  
+             </div>  
+           </div>  
+           <span style="color: darkgrey; font-size: 10pt; font-weight: bold" data-bind="text: Nombre"></span>  
+         </td>    
+         <td>  
+           <span style="color: darkgrey; font-size: 10pt; font-weight: bold" data-bind="text: FechaDesde"></span>  
+         </td>          
+         <td>  
+           <span style="color: darkgrey; font-size: 10pt; font-weight: bold" data-bind="text: FechaHasta"></span>  
+         </td>  
+         <td>  
+           <button class="presupuestoDeleter btn btn-danger">  
+             Delete  
+           </button>  
+         </td>  
+       </tr>  
+     </tbody>  
+   </table>
+
+<div class="pull-right">  
+     <a id="new-Presupuesto" class="btn btn-success"  
+       data-toggle="modal" data-target="#Presupuesto-modal">Add Presupuesto</a>  
+   </div>  
+   <div class="modal fade" id="Presupuesto-modal">  
+     <div class="modal-header">  
+       <button type="button" class="close"  
+         data-dismiss="modal">  
+         ×</button>  
+       <h3>Presupuesto</h3>  
+       <div class="row offset1">  
+         <p>  
+           <label>Nombre</label>  
+           <input type="text" data-bind="value: newPresupuesto().Nombre" />  
+         </p>  
+         <p>  
+           <label>Fecha Desde</label>  
+           <input type="text" data-bind="value: newPresupuesto().FechaDesde" />  
+         </p>  
+         <p>  
+           <label>Fecha Hasta</label>  
+           <textarea data-bind="value: newPresupuesto().FechaHasta"></textarea>  
+         </p>  
+       </div>  
+       <div class="modal-footer">          
+         <a href="#" data-dismiss="modal" class="btn btn-primary presupuestoAdd" data-bind="click: addPresupuesto">Save</a>  
+         <a href="#" data-dismiss="modal" class="btn">Cancel</a>  
+       </div>  
+     </div>  
+   </div>  

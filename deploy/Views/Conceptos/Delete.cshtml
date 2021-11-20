@@ -1,0 +1,28 @@
+﻿@model GastosAppCore.Domain.Concepto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Concepto</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">@Model.Nombre</div>
+
+    <div class="display-label">ConceptoIdPadre</div>
+    <div class="display-field">@if (@Model.ConceptoPadre != null)
+                               { @Model.ConceptoPadre.Nombre }</div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

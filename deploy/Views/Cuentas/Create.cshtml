@@ -1,0 +1,22 @@
+﻿@model GastosAppCore.Domain.Cuenta
+
+           
+@{
+    ViewBag.Title = "Crear";
+}
+@section scripts {
+<script type="text/javascript">
+$(function () {
+    $("input:submit").button({
+        icons: {
+            primary: "ui-icon-disk"
+        }
+    });
+});
+</script>
+
+}
+<div id="topbar"><div id="title">Crear</div> </div>
+
+@{Html.RenderPartial("CreateEditPartial", Model);}
+

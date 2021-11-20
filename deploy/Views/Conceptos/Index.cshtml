@@ -1,0 +1,138 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Concepto>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Conceptos";
+}
+
+@section scripts {
+@Scripts.Render("~/bundles/knockout")
+<script>
+    var newItemTemplate = @Html.Raw(Json.Encode(ViewBag.NewItem));
+</script>
+@Scripts.Render("~/bundles/concepto")
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        ko.applyBindings(new conceptoViewModel());
+        //        $("#btnCreate").button({
+        //            icons: {
+        //                primary: "ui-icon-circle-plus"
+        //            }
+        //        });
+        //        $("#btnRefresh").button({
+        //            icons: {
+        //                primary: "ui-icon-refresh"
+        //            }
+        //        });
+        $("#dialog-confirm").hide();
+        //        $("#btnSave").button({
+        //            icons: {
+        //                primary: "ui-icon-disk"
+        //            }
+        //        });
+
+        $("#recordPanel").hide();
+
+        $("table").styleTable();
+    });
+</script>    
+}
+<h3>Conceptos</h3> 
+<div class="content" style="overflow: hidden;">
+<div id="bluerightbutton">
+@if (!@MyWebUtils.IsIPhoneUser())
+{    
+    //@Html.ActionSpanIcon("Crear", "Create", "Conceptos", "ui-icon-circle-plus")
+}
+else
+{
+    <div class="ui-bar ui-bar-a"> 
+    <h3 style="display:inline-block; width:67%; margin-top:2px;">Listado</h3>
+    @Html.ActionLink("Crear", "Create", null, new { data_role = "button", data_icon = "plus", data_inline = "true", data_mini = "true", @class = "ui-btn-right" }) 
+    </div>
+}    
+</div>
+    @*
+@{
+
+    var grid = new WebGrid(Model, rowsPerPage: 100);
+    
+@grid.GetHtml(columns: grid.Columns(
+                       grid.Column("", format: @<text>@Html.ActionLink("Editar", "Edit", new { id = item.ConceptoId })</text>),
+                    grid.Column("", format: @<text>@Html.ActionLink("Borrar", "Delete", new { id = item.ConceptoId })</text>),
+                    grid.Column("Nombre", "Nombre", canSort: true),
+                    grid.Column("EsGasto", "Gasto", canSort: true),
+                    grid.Column("ConceptoPadre", "Padre", canSort: true, format: @<text>@if (@item.ConceptoPadre != null)
+                                                                                        { @item.ConceptoPadre.Nombre }</text>),
+                    grid.Column("EsFrecuente", "Frecuente", canSort: false)
+                                                              ))
+
+}
+    *@
+<div style="float: left;">
+<button data-bind="click: newrecord" id="btnCreate" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i> Crear</button>
+
+<table data-bind="visible: conceptos().length > 0">
+<caption>
+<a data-bind="click: refresh" id='btnRefresh' href='#' class="btn"><i class="glyphicon glyphicon-refresh"></i> Refresh</a>
+</caption>
+<thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Gasto</th>
+        <th scope="col">Padre</th>
+        <th scope="col">Activo</th>
+    </tr>
+</thead>
+<tbody id="conceptos" data-bind="foreach: conceptos">
+<tr>
+    <td><span data-bind="text: ConceptoId"></span></td>
+    <td><a href="" data-bind="text: Nombre,  click: $root.getdetails" style="display:block;"></a></td>
+    <td><input type="checkbox" data-bind="checked: EsGasto" disabled="disabled"/></td>
+    <td><span data-bind="text: NombrePadre, value: ConceptoPadre"></span></td>
+    <td><input type="checkbox" data-bind="checked: Activo" disabled="disabled"/></td>
+    <td><a href="" data-bind="click: $root.remove" class="btn btn-danger btn-mini">Borrar</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="recordPanel" title="Concepto">
+<div data-bind="with: concepto" >
+<form>
+<fieldset>
+    <legend>Concepto</legend>
+    <div class="form-group">
+    <label>Nombre: </label><input data-bind="value: Nombre"         class="form-control"/>
+    </div>
+    <div class="form-group">
+    <label class="checkbox"><input type="checkbox" data-bind="checked: EsGasto" />EsGasto</label>
+    </div>
+    <div class="form-group">
+    <label>Concepto Padre: </label>
+    <select id="ConceptoPadre" 
+            data-bind='
+    options: $root.conceptos,
+    optionsValue: "ConceptoId",
+    optionsText: "NombreConPadre",
+    optionsCaption: "[Concepto Padre]",
+    value: ConceptoPadre.ConceptoId'
+                class="form-control">
+    </select>
+    </div>
+    <div class="form-group">
+    <label class="checkbox">
+    <input type="checkbox" data-bind="checked: Activo" />Activo</label>
+    </div>
+</fieldset>
+    
+</form>
+</div>
+</div>
+
+</div>
+<div id="dialog-confirm" title="Borrar registro?" >
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>El registro se eliminara. Esta seguro?</p>
+</div>
+

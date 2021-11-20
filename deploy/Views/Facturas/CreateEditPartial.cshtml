@@ -1,0 +1,113 @@
+﻿@model GastosAppCore.Domain.Factura
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Factura</legend>
+        
+        @Html.HiddenFor(model => model.FacturaId)
+
+        <div class="editor-label">
+        <div id="radio">
+            @if (Model.Frecuencia == "M")
+            {<input Checked="checked" id="radioM" name="Frecuencia" type="radio" value="M" />}
+            else
+            {<input id="radioM" name="Frecuencia" type="radio" value="M" />}
+            <label for="radioM">Mensual</label>
+            @if (Model.Frecuencia == "A")
+            {<input Checked="checked" id="radioA" name="Frecuencia" type="radio" value="A" />}
+            else
+            {<input id="radioA" name="Frecuencia" type="radio" value="A" />}
+            <label for="radioA">Anual</label>
+        </div>
+        </div>
+        
+
+        <div class="editor-label">
+            <span class="name">@Html.LabelFor(model => model.DescripFrecuente)</span>
+        </div>
+        <div class="editor-field">
+        @Html.DropDownListOptional("DescripFrecuente", new SelectList(ViewBag.DescripFrecuentes as System.Collections.IEnumerable, "DescripFrecuenteId", "Nombre", Model.DescripFrecuente.DescripFrecuenteId))
+        @Html.ValidationMessageFor(model => model.DescripFrecuente)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+
+        
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Dia)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Dia)
+            @Html.ValidationMessageFor(model => model.Dia)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Mes)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Mes)
+            @Html.ValidationMessageFor(model => model.Mes)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProxFecha)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ProxFecha, new { @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.ProxFecha)
+            <button name="btnRecalcular" class="ui-icon-arrowreturn-1-w">Recalcular</button>
+            <button name="btnAvanzar" class="ui-icon-arrowrefresh-1-e">Avanzar</button>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Activo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Activo)
+            @Html.ValidationMessageFor(model => model.Activo)
+        </div>
+
+        
+
+        <p>
+            <input type="submit" value="Save" data-icon="check" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
+
+<script type="text/javascript">
+    function calculaProxFecha(actionUrl, ultFecha) {
+        var frecuencia = $("input[name=Frecuencia]:checked").val();
+        if (ultFecha == "")
+            ultFecha = new Date().toDateString();
+
+        $.ajax(
+                    {
+                        type: "POST",
+                        url: actionUrl,
+                        data: { frecuencia: frecuencia, ultFecha: ultFecha, dia: $("[name=Dia]").val(), mes: $("[name=Mes]").val() },
+                        success: function (result) {
+                            if (result.success) {
+                                $("[name=ProxFecha]").val(result.ProxFecha);
+                                //calculaMontoTransf();
+                            }
+                        },
+                        error: function (req, status, error) {
+                            alert("Error calculaProxFecha: " + req.responseText);
+                        }
+                    });
+    }
+</script>

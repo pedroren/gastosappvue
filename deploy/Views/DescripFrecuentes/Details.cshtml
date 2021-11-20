@@ -1,0 +1,31 @@
+﻿@model GastosAppCore.Domain.DescripFrecuente
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>DescripFrecuente</legend>
+
+    <div class="display-label">Nombre</div>
+    <div class="display-field">@Model.Nombre</div>
+
+    <div class="display-label">ConceptoId</div>
+    <div class="display-field">@Model.ConceptoId</div>
+
+    <div class="display-label">CuentaId</div>
+    <div class="display-field">@Model.CuentaId</div>
+
+    <div class="display-label">CuentaIdTransf</div>
+    <div class="display-field">@Model.CuentaIdTransf</div>
+
+    <div class="display-label">Monto</div>
+    <div class="display-field">@String.Format("{0:F}", Model.Monto)</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.DescripFrecuenteId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

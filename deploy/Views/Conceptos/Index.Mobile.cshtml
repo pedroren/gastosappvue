@@ -1,0 +1,36 @@
+﻿@model IEnumerable<GastosAppCore.Domain.Concepto>
+@using GastosAppMvc.Helpers
+@{
+    ViewBag.Title = "Conceptos";
+}
+
+<div class="content">
+<div class="ui-bar ui-bar-a"> 
+<h3 style="display:inline-block; width:67%; margin-top:2px;">Listado</h3>
+</div>
+@section navbar_left {
+    @{Html.RenderPartial("_HomeActionPartial");}
+}
+@section navbar_right {
+    @{Html.RenderPartial("_CreateActionPartial");}
+}
+<ul data-role="listview" data-inset="true" data-filter="true">
+
+@foreach (var item in Model)
+{
+    <li >
+    <a  href="@Url.Action("Details", new { id = item.ConceptoId })">
+    <span class="name">@item.Nombre</span>
+    <span class="time">@if (@item.ConceptoPadre != null)
+                       {
+                        @item.ConceptoPadre.Nombre
+                       }</span>
+    <span class="arrow"></span>
+    </a>
+    </li>
+    
+}
+
+</ul>
+
+</div>

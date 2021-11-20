@@ -1,0 +1,63 @@
+﻿@model GastosAppCore.Domain.Concepto
+@using GastosAppMvc.Helpers
+
+<div class="content">
+<ul class="pageitem">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Concepto</legend>
+
+        @Html.HiddenFor(model => model.ConceptoId)
+
+<div data-role="fieldcontain">
+        <div class="editor-label">
+            <span class="name">@Html.LabelFor(model => model.Nombre)</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+</div>
+<div data-role="fieldcontain">
+        <div class="editor-label">
+            <span class="name">@Html.LabelFor(model => model.EsGasto)</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EsGasto)
+        </div>
+</div>
+<div data-role="fieldcontain">
+        <div class="editor-label">
+            <span class="name">@Html.LabelFor(model => model.EsFrecuente)</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EsFrecuente)
+        </div>
+</div>
+<div data-role="fieldcontain">
+        <div class="editor-label">
+            <span class="name">@Html.LabelFor(model => model.ConceptoPadre)</span>
+        </div>
+        <div class="editor-field">
+            @*@Html.DropDownListOptional("ConceptoPadre_ConceptoId", new SelectList(ViewBag.ConceptosPadre as System.Collections.IEnumerable, "ConceptoId", "Nombre", Model.ConceptoPadre_ConceptoId))*@
+            @if (Model.ConceptoPadre != null)
+            {@Html.DropDownListOptional("ConceptoPadre", new SelectList(ViewBag.ConceptosPadre as System.Collections.IEnumerable, "ConceptoId", "Nombre", Model.ConceptoPadre.ConceptoId)) }
+            else
+            {@Html.DropDownListOptional("ConceptoPadre", new SelectList(ViewBag.ConceptosPadre as System.Collections.IEnumerable, "ConceptoId", "Nombre", "")) }
+            <span class="arrow"></span>
+        </div>
+</div>
+
+        <p>
+            <input type="submit" value="Salvar" data-icon="check"/>
+        </p>
+    </fieldset>
+}
+</ul>
+</div>
+<div id="leftnav">
+    @Html.ActionLink("Regresar", "Index")
+</div>

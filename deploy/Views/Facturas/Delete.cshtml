@@ -1,0 +1,74 @@
+﻿@model GastosAppCore.Domain.Factura
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Factura</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Nombre)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Frecuencia)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Frecuencia)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Dia)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Dia)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Mes)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Mes)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProxFecha)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProxFecha)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Activo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Activo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UltFecha)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UltFecha)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UltMonto)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UltMonto)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" class="btn btn-danger"/> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
